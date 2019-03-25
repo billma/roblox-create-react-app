@@ -123,6 +123,11 @@ module.exports = function(webpackEnv) {
     return loaders;
   };
 
+  // roblox expecific
+  const appConfig = require.reoslve(paths.appConfig).webpack;
+  const entries = appConfig && appConfig.webpack;
+  const externals = appConfig && appConfig.externals;
+
   return {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
@@ -132,27 +137,30 @@ module.exports = function(webpackEnv) {
         ? 'source-map'
         : false
       : isEnvDevelopment && 'cheap-module-source-map',
+
+    externals: externals,
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: [
-      // Include an alternative client for WebpackDevServer. A client's job is to
-      // connect to WebpackDevServer by a socket and get notified about changes.
-      // When you save a file, the client will either apply hot updates (in case
-      // of CSS changes), or refresh the page (in case of JS changes). When you
-      // make a syntax error, this client will display a syntax error overlay.
-      // Note: instead of the default WebpackDevServer client, we use a custom one
-      // to bring better experience for Create React App users. You can replace
-      // the line below with these two lines if you prefer the stock client:
-      // require.resolve('webpack-dev-server/client') + '?/',
-      // require.resolve('webpack/hot/dev-server'),
-      isEnvDevelopment &&
-        require.resolve('react-dev-utils/webpackHotDevClient'),
-      // Finally, this is your app's code:
-      paths.appIndexJs,
-      // We include the app code last so that if there is a runtime error during
-      // initialization, it doesn't blow up the WebpackDevServer client, and
-      // changing JS code would still trigger a refresh.
-    ].filter(Boolean),
+    //entry: [
+    // Include an alternative client for WebpackDevServer. A client's job is to
+    // connect to WebpackDevServer by a socket and get notified about changes.
+    // When you save a file, the client will either apply hot updates (in case
+    // of CSS changes), or refresh the page (in case of JS changes). When you
+    // make a syntax error, this client will display a syntax error overlay.
+    // Note: instead of the default WebpackDevServer client, we use a custom one
+    // to bring better experience for Create React App users. You can replace
+    // the line below with these two lines if you prefer the stock client:
+    // require.resolve('webpack-dev-server/client') + '?/',
+    // require.resolve('webpack/hot/dev-server'),
+    //isEnvDevelopment &&
+    //  require.resolve('react-dev-utils/webpackHotDevClient'),
+    // Finally, this is your app's code:
+    //paths.appIndexJs,
+    // We include the app code last so that if there is a runtime error during
+    // initialization, it doesn't blow up the WebpackDevServer client, and
+    // changing JS code would still trigger a refresh.
+    //].filter(Boolean),
+    entry: entries,
     output: {
       // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
@@ -160,24 +168,20 @@ module.exports = function(webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].js'
-        : isEnvDevelopment && 'static/js/bundle.js',
+      filename: 'static/js/[name].js',
       // There are also additional JS chunk files if you use code splitting.
-      chunkFilename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].chunk.js'
-        : isEnvDevelopment && 'static/js/[name].chunk.js',
+      chunkFilename: 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
-      publicPath: publicPath,
+      // publicPath: publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
-      devtoolModuleFilenameTemplate: isEnvProduction
+      /* devtoolModuleFilenameTemplate: isEnvProduction
         ? info =>
             path
               .relative(paths.appSrc, info.absoluteResourcePath)
               .replace(/\\/g, '/')
         : isEnvDevelopment &&
-          (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),
+          (info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/')),*/
     },
     optimization: {
       minimize: isEnvProduction,
