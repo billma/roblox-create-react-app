@@ -135,7 +135,7 @@ checkBrowsers(paths.appPath, isInteractive)
 
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
-  console.log('Creating an optimized production build...1');
+  console.log('Creating an optimized production build...');
 
   const compiler = webpack(config);
   console.log('compiler created...');
