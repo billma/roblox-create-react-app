@@ -1,7 +1,7 @@
 {
   "name": "roblox-react-scripts",
-  "version": "0.0.1",
-  "description": "Configuration and scripts for Create React App.",
+  "version": "0.0.2",
+  "description": "Configuration and scripts for Create React App for Roblox.",
   "repository": "billma/roblox-create-react-app",
   "license": "MIT",
   "engines": {

@@ -127,7 +127,6 @@ module.exports = function(webpackEnv) {
   const appConfig = require(paths.appConfig).webpack;
   const entries = appConfig && appConfig.entry;
   const externals = appConfig && appConfig.externals;
-  console.log('app config entries: ', entries);
   return {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
@@ -163,7 +162,7 @@ module.exports = function(webpackEnv) {
     entry: entries,
     output: {
       // The build folder.
-      path: isEnvProduction ? paths.appBuild : undefined,
+      path: paths.appBuild,
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
